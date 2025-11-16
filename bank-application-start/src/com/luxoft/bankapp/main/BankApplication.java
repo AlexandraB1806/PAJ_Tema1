@@ -5,6 +5,7 @@ import com.luxoft.bankapp.exceptions.ClientExistsException;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.exceptions.OverdraftLimitExceededException;
 import com.luxoft.bankapp.service.BankService;
+import com.luxoft.bankapp.service.EmailService;
 
 import java.util.Scanner;
 import java.util.SortedSet;
@@ -14,17 +15,22 @@ public class BankApplication {
 	private static Bank bank;
 	
 	public static void main(String[] args) {
-		bank = new Bank();
+		EmailService emailService = new EmailService();
+		bank = new Bank(emailService);
 
 		if (args != null && args.length > 0 && "-statistics".equalsIgnoreCase(args[0])) {
 			modifyBank();
 			runStatisticsMode();
+			emailService.close();
+
 			return;
 		}
 
 		modifyBank();
 		printBalance();
 		BankService.printMaximumAmountToWithdraw(bank);
+
+		emailService.close();
 	}
 	
 	private static void modifyBank() {

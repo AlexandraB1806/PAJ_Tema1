@@ -3,6 +3,7 @@ package com.luxoft.bankapp.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.luxoft.bankapp.service.EmailService;
 import org.junit.Test;
 
 import com.luxoft.bankapp.domain.Bank;
@@ -53,7 +54,7 @@ public class Test1 {
 	
 	@Test
 	public void testBank() throws ClientExistsException {
-		Bank bank = new Bank();
+		Bank bank = new Bank(new EmailService());
 		Client client1 = new Client("Smith John", Gender.MALE); 
 		client1.addAccount(new SavingAccount(1, 1000.0));
 		client1.addAccount(new CheckingAccount(2, 1000.0, 100.0));
